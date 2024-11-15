@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import { routerTransition } from './routing-animations';
+import {ThemeService} from "./core/services/theme.service";
 
 @Component({
   selector: 'app-root',
@@ -7,12 +8,18 @@ import { routerTransition } from './routing-animations';
   styleUrls: ['./app.component.scss'],
   animations: [ routerTransition ]
 })
-export class AppComponent {
+export class AppComponent implements OnInit{
   year = new Date().getFullYear();
+  themeService = inject(ThemeService);
+
+  ngOnInit(){
+    this.themeService.init()
+
+  }
 
   getState(outlet: any) {
-    return outlet && 
-    outlet.activatedRouteData && 
+    return outlet &&
+    outlet.activatedRouteData &&
     outlet.activatedRouteData['state'];
   }
 }

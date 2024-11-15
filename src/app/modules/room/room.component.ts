@@ -1,18 +1,18 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute, Router } from '@angular/router';
-import { filter, map, Observable, startWith, Subject, takeUntil } from 'rxjs';
-import { SnackbarService } from 'src/app/core/services/snackbar.service';
+import {Component, inject, OnDestroy, OnInit, signal} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {filter, map, Observable, Subject, takeUntil} from 'rxjs';
+import {SnackbarService} from 'src/app/core/services/snackbar.service';
 import {
   CommunicationEventTypes,
   SocketService,
 } from 'src/app/modules/room/services/socket/socket.service';
-import { UserService } from 'src/app/modules/room/services/user/user.service';
-import { RoomService } from './room.service';
-import { TerminalChange } from './widget/terminal-widget/interfaces/terminal-change.interface';
-import { ContactSupportDialogComponent } from './components/contact-support-dialog/contact-support-dialog.component';
-import { MatDialog } from '@angular/material/dialog';
-import { ITerminalLog } from 'src/app/shared/modules/terminal/interfaces/terminal-log.interface';
+import {UserService} from 'src/app/modules/room/services/user/user.service';
+import {RoomService} from './room.service';
+import {TerminalChange} from './widget/terminal-widget/interfaces/terminal-change.interface';
+import {ContactSupportDialogComponent} from './components/contact-support-dialog/contact-support-dialog.component';
+import {MatDialog} from '@angular/material/dialog';
+import {ITerminalLog} from 'src/app/shared/modules/terminal/interfaces/terminal-log.interface';
+import {Theme, ThemeService} from "../../core/services/theme.service";
 
 function roomServiceFactory(
   route: ActivatedRoute,
@@ -45,11 +45,14 @@ export class RoomComponent implements OnInit, OnDestroy {
   communicationEventTypes = CommunicationEventTypes;
   roomId: string | null = null;
   hideLeaveBtn = false;
+  isDark = signal(false);
+
 
   userIds$: Observable<string[]> = this.roomService.connections$.pipe(
-    map((users) => users.map(({ id }) => id))
+    map((users) => users.map(({id}) => id))
   );
 
+  private themeService = inject(ThemeService);
   private ngUnsubscribe: Subject<void> = new Subject<void>();
 
   constructor(
@@ -71,20 +74,27 @@ export class RoomComponent implements OnInit, OnDestroy {
       .subscribe(() => {
         this.roomService.joinRoom();
       });
+
+    console.log(this.themeService.currentTheme())
+    this.isDark.set(this.themeService.isDark())
   }
 
   onLogsChange(log: ITerminalLog): void {
     this.roomService.shareExecutionLog(log);
   }
+
   onChange(change: TerminalChange): void {
     this.roomService.terminalChanged(change);
   }
+
   onCursorChange(position: any): void {
     this.roomService.cursorChange(position);
   }
+
   onSelectionChange(position: any): void {
     this.roomService.selectionChange(position);
   }
+
   onMouseMove(position: any): void {
     this.roomService.mouseMove(position);
   }
@@ -104,6 +114,12 @@ export class RoomComponent implements OnInit, OnDestroy {
       maxHeight: '100vh',
       panelClass: 'contact-support-dialog',
     });
+  }
+
+  toggleTheme() {
+    const toggledTheme = this.themeService.currentTheme() === 'dark' ? 'light' : 'dark';
+    this.themeService.setTheme(toggledTheme as Theme);
+    this.isDark.set(this.themeService.isDark());
   }
 
   ngOnDestroy() {

@@ -1,8 +1,14 @@
 <div class="container">
-  <button mat-fab class="logout-btn icon-btn" [class.fullscreen]="hideLeaveBtn"
-    (click)="leaveRoom()">
-    <mat-icon>exit_to_app</mat-icon>
-  </button>
+  <div class="app-header" [class.fullscreen]="hideLeaveBtn">
+    <button mat-fab class="logout-btn icon-btn"
+            (click)="leaveRoom()">
+      <mat-icon>exit_to_app</mat-icon>
+    </button>
+    <button mat-fab class="icon-btn"
+            (click)="toggleTheme()">
+      <mat-icon>{{ isDark() ? 'light_mode' : 'dark_mode'}}</mat-icon>
+    </button>
+  </div>
   <div class="container-wrapper">
     <app-terminal-widget
       [value]="roomService.initialState$ | async"

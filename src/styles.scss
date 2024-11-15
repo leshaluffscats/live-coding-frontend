@@ -54,34 +54,10 @@ pre[class*="language-"].line-numbers > code {
   white-space: inherit;
 }
 
-html,
-body {
-  height: 100%;
-}
+
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
-}
-
-/* TODO(mdc-migration): The following rule targets internal classes of slide-toggle that may no longer apply for the MDC version. */
-.mat-mdc-slide-toggle .mat-slide-toggle-bar {
-  background-color: #546e7a!important;
-}
-/* TODO(mdc-migration): The following rule targets internal classes of slide-toggle that may no longer apply for the MDC version. */
-.mat-mdc-slide-toggle.mat-checked:not(.mat-disabled) .mat-slide-toggle-bar {
-  background-color: #3d5a67!important;
-}
-/* TODO(mdc-migration): The following rule targets internal classes of slide-toggle that may no longer apply for the MDC version. */
-.mat-mdc-slide-toggle.mat-checked:not(.mat-disabled) .mat-slide-toggle-thumb {
-  background-color: #546e7a!important;
-}
-
-/* TODO(mdc-migration): The following rule targets internal classes of slide-toggle that may no longer apply for the MDC version. */
-.mat-mdc-slide-toggle .mat-slide-toggle-thumb {
-  background-color: var(--text-color)!important;
-}
-.mat-mdc-slide-toggle.mat-checked .mat-ripple-element {
-  background-color: #546e7a!important;
 }
 
 // mat-icon-stepper selected color change
@@ -106,7 +82,7 @@ body {
 
 // mat-input error outline color
 /* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
-.mat-form-field-appearance-outline.mat-form-field-invalid.mat-form-field-invalid
+.mat-form-field-appearance-outline.mat-form-field-invalid.mat-form-field-invalid,
   .mat-form-field-outline-thick {
   color: var(--text-color) !important;
   opacity: 0.8 !important;

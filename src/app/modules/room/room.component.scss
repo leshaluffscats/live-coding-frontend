@@ -5,6 +5,21 @@
   align-items: center;
   justify-content: center;
   height: 100vh;
+
+
+  .app-header {
+    display: flex;
+    gap: 10px;
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    z-index: 5;
+
+    &.fullscreen {
+      top: 6px;
+      left: 10px;
+    }
+  }
 }
 
 .container-wrapper {
@@ -30,10 +45,10 @@
   box-shadow: var(--shadow);
   transform: scale(-1);
   transition: var(--transition);
-  position: absolute;
-  top: 1rem;
-  left: 1rem;
-  z-index: 5;
+  //position: absolute;
+  //top: 1rem;
+  //left: 1rem;
+  //z-index: 5;
 
   &.fullscreen {
     top: 6px;
